@@ -7,6 +7,41 @@ Para este TP implemente dos versiones del algoritmo de Dijkstra en Python:
 
 En `dijkstra.py` estan las dos implementaciones y en `main.py` las ejecuto con los mismos grafos para comparar resultados y tiempos.
 
+## Como funciona el algoritmo
+
+Dijkstra busca las distancias minimas desde un vertice de origen hacia todos los demas, en un grafo con pesos no negativos.
+
+Para hacerlo, primero guarda la distancia de cada vertice como infinito, excepto la del origen que empieza en 0.
+
+Despues va seleccionando el vertice con menor distancia conocida y revisa sus vecinos. Si encuentra un camino mas corto hacia alguno, actualiza su distancia. A esto se lo llama **relajacion de aristas**.
+
+### ¿Que cambia con la Priority Queue?
+
+En la version tradicional (`dijkstra_array`), cada vez que necesitamos el siguiente vertice hay que recorrer todos los que todavia no fueron visitados para encontrar el de menor distancia.
+
+En cambio, en `dijkstra_heap` usamos `heapq`, que implementa una cola de prioridad mediante un heap de minimos.
+
+Las operaciones principales son:
+
+- `heappush`: agrega un vertice con su distancia a la cola.
+- `heappop`: extrae el elemento con menor distancia.
+
+Estas operaciones cuestan O(log n), siendo n la cantidad de elementos en la cola, en lugar de tener que recorrer todos los vertices para buscar el minimo.
+
+### ¿Por que se optimiza?
+
+La diferencia esta en como seleccionamos el siguiente vertice, no en el calculo de las distancias.
+
+Con el array, buscar el minimo cuesta O(V) y se repite hasta V veces, dando O(V²).
+
+Con el heap, las inserciones y extracciones son logaritmicas, por lo que la complejidad total pasa a O((V + E) log V).
+
+Ademas, cuando encontramos una distancia mejor, agregamos una nueva entrada a la cola. Si despues aparece una entrada vieja con una distancia mayor a la que ya tenemos guardada, la ignoramos con `continue`.
+
+Esto permite actualizar las prioridades sin tener que modificar elementos que ya estan dentro del heap.
+
+Por eso, en grafos dispersos, donde E es proporcional a V, pasamos de O(V²) a O(V log V).
+
 ## Comparacion de tiempos
 
 Probe las dos versiones con grafos de distintos tamaños. En todos los casos devolvieron las mismas distancias minimas.
