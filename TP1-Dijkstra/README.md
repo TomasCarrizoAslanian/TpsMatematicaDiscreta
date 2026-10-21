@@ -33,6 +33,27 @@ En grafos dispersos, la complejidad pasa de **O(V²) a O(V log V)**.
 
 En las pruebas, con 2000 vertices, la version con priority queue fue aproximadamente **42 veces mas rapida** que la version con array.
 
+## Comparacion con grafos densos
+
+Tambien probe los algoritmos con grafos densos, donde todos los vertices estan conectados entre si.
+
+En este caso, el array tiene complejidad O(V²), mientras que la version con priority queue tiene una cota de O(V² log V).
+
+Por eso, usar una cola de prioridad no siempre mejora la complejidad. La mejora es especialmente importante en grafos dispersos.
+
+### Resultados con grafos densos
+
+| Vertices | Array (ms) | Priority Queue (ms) |
+|---|---|---|
+| 100 | 2.074 | 1.190 |
+| 200 | 6.496 | 3.202 |
+| 400 | 25.476 | 20.922 |
+| 800 | 125.270 | 70.068 |
+
+En estas pruebas la priority queue tambien fue mas rapida, aunque la diferencia fue menor que en los grafos dispersos.
+
+Esto muestra que el rendimiento depende tambien de la cantidad de aristas y no solamente de los vertices. Los tiempos pueden variar entre ejecuciones.
+
 ## Ejecucion
 
 Para correr la comparacion:
