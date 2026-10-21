@@ -61,3 +61,37 @@ for cantidad in [100, 500, 1000, 2000]:
     assert dist_array == dist_heap, "Los resultados no coinciden"
 
     print(f"{cantidad:8} | {tiempo_array:10.3f} | {tiempo_heap:19.3f}")
+
+
+
+# Comparacion con grafos densos
+def generar_grafo_denso(cantidad):
+    grafo = {i: [] for i in range(cantidad)}
+
+    for i in range(cantidad):
+        for j in range(i + 1, cantidad):
+            peso = random.randint(1, 20)
+            grafo[i].append((j, peso))
+            grafo[j].append((i, peso))
+
+    return grafo
+
+
+print("\n=== COMPARACION EN GRAFOS DENSOS ===")
+print("Vertices | Array (ms) | Priority Queue (ms)")
+
+for cantidad in [100, 200, 400, 800]:
+    grafo_prueba = generar_grafo_denso(cantidad)
+
+    inicio = time.perf_counter()
+    dist_array = dijkstra_array(grafo_prueba, 0)
+    tiempo_array = (time.perf_counter() - inicio) * 1000
+
+    inicio = time.perf_counter()
+    dist_heap = dijkstra_heap(grafo_prueba, 0)
+    tiempo_heap = (time.perf_counter() - inicio) * 1000
+
+    assert dist_array == dist_heap, "Los resultados no coinciden"
+
+    print(f"{cantidad:8} | {tiempo_array:10.3f} | {tiempo_heap:19.3f}")
+
